@@ -1,0 +1,43 @@
+create database Garments
+
+create table Machines(MCH_ID BIGINT NOT NULL, 
+MCH_SHORT_NAME VARCHAR(100), 
+MCH_LONG_NAME VARCHAR(100) NOT NULL,
+PRIMARY KEY(MCH_ID) );
+
+desc Machines
+
+
+CREATE TABLE `operations` (
+  `OPR_ID` bigint(20) NOT NULL,
+  `OPR_SHORT_NAME` varchar(100) default NULL,
+  `OPR_LONG_NAME` varchar(200) default NULL,
+  `OPR_DIFFICULTY_LEVEL` varchar(100) default NULL,
+  PRIMARY KEY  (`OPR_ID`)
+);
+
+
+create table Operation_Breakdown (OB_ID BIGINT NOT NULL, 
+OB_NAME VARCHAR(100), 
+OB_OPERATION_SEQUENCE INT NOT NULL,
+OB_OPR_ID BIGINT,
+OB_MCH_ID BIGINT,
+PRIMARY KEY(OB_ID, OB_OPERATION_SEQUENCE),
+FOREIGN KEY (OB_OPR_ID) REFERENCES Operations(OPR_ID),
+FOREIGN KEY (OB_MCH_ID) REFERENCES Machines(MCH_ID));
+
+# should ob_name be foreign key?
+
+desc Operation_Breakdown
+
+create table OB_Operation_Count(OBOC_ID BIGINT NOT NULL AUTO_INCREMENT,
+OBOC_OB_ID BIGINT,
+OBOC_OB_NAME VARCHAR(100),
+OBOC_NUMBER_OF_OPERATIONS INT NOT NULL,
+PRIMARY KEY (OBOC_ID),
+FOREIGN KEY (OBOC_OB_ID) REFERENCES Operation_Breakdown(OB_ID)
+);
+
+
+#Should OBOC_OB_NAME be Foreign key ??  FOREIGN KEY (OBOC_OB_NAME) REFERENCES Operation_Breakdown(OB_NAME)
+
